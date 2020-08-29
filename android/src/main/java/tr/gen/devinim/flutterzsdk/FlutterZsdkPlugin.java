@@ -2,6 +2,7 @@ package tr.gen.devinim.flutterzsdk;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.os.Handler;
 import android.os.Looper;
 
 import com.zebra.sdk.comm.BluetoothConnection;
@@ -255,16 +256,26 @@ public class FlutterZsdkPlugin implements MethodCallHandler {
                     connection.write(data.getBytes("UTF-8"));
 
                     // Make sure the data got to the printer before closing the connection
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
 
                     // Close the connection to release resources.
                     connection.close();
 
-                    result.success("wrote " + data.getBytes().length + "bytes");
+                    Handler handler = new Handler((Looper.getMainLooper()));
+
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            result.success("wrote " + data.getBytes().length + "bytes");
+                        }
+                    };
+
+                    handler.post(runnable);
 
                     Looper.myLooper().quit();
+
                 } catch (Exception e) {
-                    result.error(e.getMessage(), null, null);
+//                    result.error(e.getMessage(), null, null);
                     // Handle communications error here.
                     e.printStackTrace();
                 }
