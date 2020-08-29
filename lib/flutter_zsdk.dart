@@ -54,6 +54,10 @@ class FlutterZsdk {
     await _channel.invokeMethod("sendZplOverBluetooth", {"mac": mac, "data": data});
   }
 
+  static Future<void> sendZplOverBluetooth(String mac, String data) async {
+    await _channel.invokeMethod("sendZplOverBluetooth", {"mac": mac, "data": data});
+  }
+
   static Future<bool> _isOnline(String mac) async {
     dynamic d;
     if (Platform.isAndroid) {
