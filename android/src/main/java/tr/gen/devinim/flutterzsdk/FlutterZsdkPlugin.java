@@ -276,12 +276,14 @@ public class FlutterZsdkPlugin implements MethodCallHandler {
 
                 } catch (Exception e) {
                     
+                    final Exception eFinal = e;
+                    
                     Handler handler = new Handler((Looper.getMainLooper()));
 
                     Runnable runnable = new Runnable() {
                         @Override
                         public void run() {
-                            result.error(e.getMessage(), null, null);
+                            result.error(eFinal.getMessage(), null, null);
                         }
                     };
 
