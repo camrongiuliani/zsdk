@@ -275,6 +275,17 @@ public class FlutterZsdkPlugin implements MethodCallHandler {
                     Looper.myLooper().quit();
 
                 } catch (Exception e) {
+                    
+                    Handler handler = new Handler((Looper.getMainLooper()));
+
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            result.error(e.getMessage(), null, null);
+                        }
+                    };
+
+                    handler.post(runnable);
 //                    result.error(e.getMessage(), null, null);
                     // Handle communications error here.
                     e.printStackTrace();
